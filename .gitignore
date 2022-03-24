@@ -26,3 +26,4 @@ custom-elements.json
 .env
 package-lock.json
 yarn.lock
+.vercel
