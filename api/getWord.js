@@ -15,6 +15,8 @@ export default async function handler(request, res) {
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
   );
 
+  let word;
+
   const url = `https://random-word-api.herokuapp.com/all`;
   var wordList = await fetch(url).then(res => res.json());
   // filter array to just 5 letter words
@@ -29,7 +31,7 @@ export default async function handler(request, res) {
 
   seed = parseInt(seed.toString().substring(1, 4));
 
-  console.log(seed);
+  console.log('Current seed ' + seed);
 
   // ensure we are not above the length of the array
   if (seed > wordList.length) {
@@ -37,6 +39,12 @@ export default async function handler(request, res) {
   }
 
   let wordOfDay = wordList[seed];
+
+  let nums = Math.floor(Math.random() * 8786);
+
+  let newWord = wordList[nums];
+
+  console.log(newWord);
   // return word of the day
-  res.json({ word: wordOfDay });
+  res.json({ word: wordOfDay, randomWord: newWord });
 }
