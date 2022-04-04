@@ -1,7 +1,13 @@
 import fetch from 'node-fetch';
 
 export default async function handler(request, res) {
-  const { myDay } = request.query;
+  var { myDay } = request.query;
+  // @feedback I made this accept a "date" called random
+  // this way the game can be played either by supplying a date,
+  // or asking for a new date, or for a "random" date
+  if (myDay === "random") {
+    myDay = randomDate(new Date(1990, 1, 1), new Date());
+  }
   // headers for cache control
   res.setHeader('Cache-Control', 'max-age=0, s-maxage=1800');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -37,14 +43,13 @@ export default async function handler(request, res) {
   if (seed > wordList.length) {
     seed = wordList.length - 1;
   }
-
-  let wordOfDay = wordList[seed];
-
-  let nums = Math.floor(Math.random() * 8786);
-
-  let newWord = wordList[nums];
-
-  console.log(newWord);
   // return word of the day
-  res.json({ word: wordOfDay, randomWord: newWord });
+  // @feedback this API would not return a random word + word.
+  // it would return a word and I've supplied the date
+  // so that if it's random you'll know which date generates that word
+  res.json({ word: wordList[seed], date: myDay });
+}
+
+function randomDate(start, end) {
+  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).toISOString().slice(0, 10);
 }
