@@ -19,7 +19,6 @@
     "start": "web-dev-server"
   },
   "dependencies": {
-    "@lrnwebcomponents/lrnsys-comment": "4.0.12",
     "@lrnwebcomponents/simple-colors": "^4.0.18",
     "lit": "2.2.0",
     "node-fetch": "^3.1.0",
