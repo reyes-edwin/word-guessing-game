@@ -1,0 +1,110 @@
+openapi: 3.0.0
+info:
+  title: Word Guess Game
+  description: 'A clone of the game wordle but with micro frontend and webcomponents'
+  contact:
+    email: jkf5396@psu.edu
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: https://word-guessing-game-seven.vercel.app/api
+tags:
+- name: getWord
+  description: Everything about getting a random word
+  externalDocs:
+    description: Find out more
+    url: https://github.com/reyes-edwin/word-guessing-game
+- name: store
+  description: Access to Petstore orders
+
+paths:
+  /getWord:
+    get:
+      tags:
+      - getWord
+      summary: Gets a word for the current date/seed value
+      description: A JSON response containing the word of the day for either the current date or a randomized date
+      operationId: getCurrentRandomWord
+      parameters:
+      - name: myDay
+        in: query
+        description: Input of either the current date to retrieve the word of the day or the value 'random' to retreive a randomized word of the day
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          items:
+            default: available
+            enum:
+            - YYYY-MM-DD
+            - random
+      responses:
+        200:
+          description: Successful operation, an array response with word and date value
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                    $ref: "#/components/schemas/getWord"
+                }
+              }
+            }
+          }
+                  
+        400:
+          description: Invalid status value
+          content: {}
+
+    
+  
+  /store/inventory:
+    get:
+      tags:
+      - store
+      summary: Returns pet inventories by status
+      description: Returns a map of status codes to quantities
+      operationId: getInventory
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+                  format: int32
+      security:
+      - api_key: []
+
+components:
+  schemas:
+    getWord:
+      type: object
+      properties:
+        word:
+          type: string
+          format: string
+        date:
+          type: string
+          format: date
+      xml:
+        name: getWord
+
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://petstore.swagger.io/oauth/dialog
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
