@@ -37,8 +37,9 @@ class WordGuessingGame extends LitElement {
     return [css`
     :host {
       display: block;
-      border: 1px solid black;
+      border: 1px solid white;
       margin: 10px;
+      color: white;
     }`];
   }
   
@@ -53,7 +54,6 @@ class WordGuessingGame extends LitElement {
 
   render() {
     return html`date: ${this.date}. word:${this.word}
-    
     <word-game-board word="${this.word}"></word-game-board>
     `;
   }

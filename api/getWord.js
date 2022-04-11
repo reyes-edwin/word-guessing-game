@@ -21,8 +21,6 @@ export default async function handler(request, res) {
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
   );
 
-  let word;
-
   const url = `https://random-word-api.herokuapp.com/all`;
   var wordList = await fetch(url).then(res => res.json());
   // filter array to just 5 letter words

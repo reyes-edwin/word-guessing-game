@@ -1,27 +1,41 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="Description" content="Word Guessing Game">
-  <base href="/">
-  <style>
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: sans-serif;
-      background-color: #ededed;
-    }
-  </style>
-  <title>Word Guessing Game</title>
-</head>
-<body>
-  <word-guess-game></word-guess-game>
-  <word-guess-game date="random"></word-guess-game>
-  <script type="module">
-    import './src/WordGuessingGame.js';
-  </script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="Description" content="Word Guessing Game" />
+    <base href="/" />
+    <style>
+      *,
+      *::after,
+      *::before {
+        box-sizing: border-box;
+        font-family: Arial;
+      }
+
+      body {
+        background-color: hsl(240, 3%, 7%);
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+        padding: 1em;
+        font-size: clamp(0.5rem, 2.5vmin, 1.5rem);
+      }
+    </style>
+    <title>Word Guessing Game</title>
+  </head>
+  <body>
+    <!-- brings a static word for the current day -->
+    <word-guess-game></word-guess-game>
+    <!-- Generates a random date and word  -->
+    <!-- <word-guess-game date="random"></word-guess-game> -->
+    <script type="module">
+      import './src/WordGuessingGame.js';
+    </script>
+  </body>
 </html>
