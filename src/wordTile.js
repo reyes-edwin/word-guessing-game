@@ -7,17 +7,23 @@ export class WordTile extends LitElement {
 
   constructor() {
     super();
+    this.letter = '';
+    this.index = 0;
   }
 
   static get properties() {
     return {
-      letter: { type: String },
+      letter: { type: String, reflect: true, },
+      index: { type: Number, reflect: true, },
     };
   }
 
   static get styles() {
     return [
       css`
+      :host {
+        display: inline-flex;
+      }
         .tile {
           font-size: 2em;
           background: none;
@@ -31,56 +37,33 @@ export class WordTile extends LitElement {
           align-items: center;
           user-select: none;
           transition: transform 250ms linear;
-        }
-        .guess-grid {
-          display: grid;
-          justify-content: center;
-          align-content: center;
-          flex-grow: 1;
-          grid-template-columns: repeat(5, 4em);
-          grid-template-rows: repeat(6, 4em);
-          gap: 0.25em;
-          margin-bottom: 1em;
+          padding: 0;
+          width: 75px;
         }
       `,
     ];
   }
 
   createTile() {
-    return html` <div data-guess-grid class="guess-grid">
-      <input type="text" class="tile" id="index+1" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-      <input type="text" class="tile" maxlength="1" autofocus />
-    </div>`;
+    return html`
+    
+    <input type="text" @input="${this.valueChanged}" value="${this.letter}" class="tile" maxlength="1"  />
+    `;
+}
+
+  valueChanged(e) {
+    this.letter = this.shadowRoot.querySelector("input").value.toUpperCase();
   }
 
+  updated(changedProperties) {
+    changedProperties.forEach((oldValue, propName) => {
+      if (propName === 'letter') {
+        this.dispatchEvent(new CustomEvent('letter-changed', {
+          detail: this
+        }))
+      }
+    });
+  }
   render() {
     return html`${this.createTile()}`;
   }
