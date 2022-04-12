@@ -3,7 +3,6 @@ import { html, css, LitElement } from 'lit';
 // this keeps the current element just about starting the game
 // and passing the "word" down into the word-game-board tag
 import "./wordGameBoard.js";
-import '@lrnwebcomponents/simple-colors';
 
 class WordGuessingGame extends LitElement {
   static get tag() {
@@ -14,7 +13,8 @@ class WordGuessingGame extends LitElement {
     super();
     this.date = new Date().toISOString().slice(0, 10);
     this.endpoint = '../api/getWord';
-    this.word = '';
+    // @note just for testing
+    this.word = 'lambs';
   }
 
   static get properties() {
