@@ -25,10 +25,24 @@
         padding: 1em;
         font-size: clamp(0.5rem, 2.5vmin, 1.5rem);
       }
+      .title {
+        color: gainsboro;
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin: 0.4rem 0 0.4rem 0;
+        text-align: center;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+          'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+      }
+
+      header {
+        border-bottom: 1px solid rgb(58, 58, 60);
+      }
     </style>
     <title>Word Guessing Game</title>
   </head>
   <body>
+    <header><h1 class="title">WORDLE</h1></header>
     <!-- brings a static word for the current day -->
     <word-guess-game></word-guess-game>
     <!-- Generates a random date and word  -->

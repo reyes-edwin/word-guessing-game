@@ -49,8 +49,8 @@ export class WordTile extends LitElement {
           align-items: center;
           user-select: none;
           padding: 0;
-          width: 2em;
-          height: 2em;
+          width: 1.5em;
+          height: 1.5em;
         }
       `,
     ];

@@ -40,6 +40,7 @@ export class WordGameBoard extends LitElement {
       css`
         :host {
           display: block;
+          margin-top: 50px;
         }
 
         .guess-grid {
@@ -47,8 +48,8 @@ export class WordGameBoard extends LitElement {
           justify-content: center;
           align-content: center;
           flex-grow: 1;
-          grid-template-columns: repeat(5, 4em);
-          gap: 0.5em;
+          grid-template-columns: repeat(5, 1.5em);
+          gap: 2em;
           margin-bottom: 1em;
         }
       `,
