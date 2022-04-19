@@ -20,7 +20,14 @@ export class WordGameBoard extends LitElement {
       ['', '', '', '', ''],
       ['', '', '', '', ''],
     ];
-    this.status = [...this.guesses];
+    this.status = [
+      ['', '', '', '', ''],
+      ['', '', '', '', ''],
+      ['', '', '', '', ''],
+      ['', '', '', '', ''],
+      ['', '', '', '', ''],
+      ['', '', '', '', ''],
+    ];
   }
   static get tag() {
     return 'word-game-board';
@@ -97,38 +104,55 @@ export class WordGameBoard extends LitElement {
         }
 
         // checks if each char & index matches the WOD
+
         this.word.split('', 5).forEach((char, index) => {
-          if (guessWord[0] === char) {
+
+          if (guessWord.incudes(char) && index == 0) {
+            this.status[row][0] = 'correct';
+          } else {
+            this.status[row][0] = 'partial';
+          }
+
+          if (guessWord[0].includes(char)) {
             if (index === 0) {
               this.status[row][0] = 'correct';
             } else {
-              this.status[row][0] = 'partial';
             }
-          } else if (guessWord[1] === char) {
+          }
+
+          if (guessWord[1].includes(char)) {
             if (index === 1) {
               this.status[row][1] = 'correct';
             } else {
               this.status[row][1] = 'partial';
             }
-          } else if (guessWord[2] === char) {
+          }
+
+          if (guessWord[2].includes(char)) {
             if (index === 2) {
               this.status[row][2] = 'correct';
             } else {
               this.status[row][2] = 'partial';
             }
-          } else if (guessWord[3] === char) {
+          }
+
+          if (guessWord[3].includes(char)) {
             if (index === 3) {
               this.status[row][3] = 'correct';
             } else {
               this.status[row][3] = 'partial';
             }
-          } else if (guessWord[4] === char) {
+          }
+
+          if (guessWord[4].includes(char)) {
             if (index === 4) {
               this.status[row][4] = 'correct';
             } else {
               this.status[row][4] = 'partial';
             }
-          } else {
+          }
+
+          if (!guessWord.includes(char)) {
             this.status[row][index] = 'incorrect';
           }
         });
@@ -137,10 +161,13 @@ export class WordGameBoard extends LitElement {
     this.requestUpdate();
   }
 
-// deletes user input   
+  // deletes user input
   handleDelete(e) {
     if (e.keyCode == 8 || e.keyCode == 46) {
-      console.log('delete');
+      e.target.currentElementSibling.shadowRoot.querySelector('input').select();
+      e.target.previousElementSibling.shadowRoot
+        .querySelector('input')
+        .select();
     }
   }
 
@@ -150,35 +177,34 @@ export class WordGameBoard extends LitElement {
         (guess, index) => html`
           <div data-guess-row="${index}" class="guess-grid">
             <word-tile
-              @keydown="${this.handleDelete}"
               status="${this.status[index][0]}"
               index="0"
               letter="${guess[0]}"
               @letter-changed="${this.letterChange}"
             ></word-tile>
             <word-tile
-              @keypress="${this.handleDelete}"
+              @keydown="${this.handleDelete}"
               status="${this.status[index][1]}"
               index="1"
               letter="${guess[1]}"
               @letter-changed="${this.letterChange}"
             ></word-tile>
             <word-tile
-              @keypress="${this.handleDelete}"
+              @keydown="${this.handleDelete}"
               status="${this.status[index][2]}"
               index="2"
               letter="${guess[2]}"
               @letter-changed="${this.letterChange}"
             ></word-tile>
             <word-tile
-              @keypress="${this.handleDelete}"
+              @keydown="${this.handleDelete}"
               status="${this.status[index][3]}"
               index="3"
               letter="${guess[3]}"
               @letter-changed="${this.letterChange}"
             ></word-tile>
             <word-tile
-              @keypress="${this.handleDelete}"
+              @keydown="${this.handleDelete}"
               status="${this.status[index][4]}"
               index="4"
               letter="${guess[4]}"

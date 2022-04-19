@@ -57,7 +57,12 @@ class WordGuessingGame extends LitElement {
   }
 
   render() {
-    return html` <word-game-board word="${this.word}" allWords="${this.allWords}"></word-game-board> `;
+    return html`
+      <word-game-board
+        word="${this.word}"
+        .allWords="${this.allWords}"
+      ></word-game-board>
+    `;
   }
 }
 
