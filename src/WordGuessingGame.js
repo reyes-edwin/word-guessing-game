@@ -14,7 +14,7 @@ class WordGuessingGame extends LitElement {
     this.date = new Date().toISOString().slice(0, 10);
     this.endpoint = '../api/getWord';
     // @note just for testing
-    this.word = '';
+    this.word = 'edwin';
     this.allWords = '';
   }
 

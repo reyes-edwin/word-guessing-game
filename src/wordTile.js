@@ -28,12 +28,17 @@ export class WordTile extends LitElement {
         }
         :host([status="correct"]) .tile {
          background-color: #538d4e;
+         border-color: #538d4e;
         }
         :host([status="partial"]) .tile {
           background-color: #b59f3b;
+          border-color: #b59f3b;
+
         }
         :host([status="incorrect"]) .tile {
           background-color: #3A3A3C;
+          border-color: #3A3A3C;
+
         }
 
         .tile {

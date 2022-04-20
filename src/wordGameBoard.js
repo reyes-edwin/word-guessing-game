@@ -67,6 +67,7 @@ export class WordGameBoard extends LitElement {
   letterChange(e) {
     const node = e.detail;
     const row = parseInt(node.parentElement.getAttribute('data-guess-row'));
+
     if (this.guesses[row][e.detail.index] !== e.detail.letter) {
       this.guesses[row][e.detail.index] = e.detail.letter;
       if (
@@ -79,83 +80,35 @@ export class WordGameBoard extends LitElement {
         node.nextElementSibling.shadowRoot.querySelector('input').focus();
       } else if (node && !node.nextElementSibling) {
         // this implies we are at the end of a row
-        let theGuess = this.guesses[row].join('');
         let guessWord = this.guesses[row].join('').toLowerCase();
 
-        if (theGuess.toLowerCase() === this.word.toLowerCase()) {
-          console.log('you win!');
-        }
-
         // checks if the guessWord is in the word list
-        if (!this.allWords.includes(theGuess.toLowerCase())) {
-          window.alert('word not in list');
-          return;
-        }
+        // if (!this.allWords.includes(guessWord)) {
+        //   window.alert('word not in list');
+        //   return;
+        // }
 
-        if (theGuess.toLowerCase() != this.word.toLowerCase()) {
-          node.parentElement.nextElementSibling.children;
-          node.parentElement.nextElementSibling.children[0].shadowRoot
-            .querySelector('input')
-            .select();
+        if (guessWord != this.word.toLowerCase()) {
+          // node.parentElement.nextElementSibling.children[0].shadowRoot.querySelector('input').select();
           console.log('no match!');
-        } else {
-          console.log('game over');
-          // window.alert('You are out of guess. The word was ' + `${this.word}`);
         }
 
-        // checks if each char & index matches the WOD
-
-        this.word.split('', 5).forEach((char, index) => {
-
-          if (guessWord.incudes(char) && index == 0) {
-            this.status[row][0] = 'correct';
+        for (let i = 0; i < 5; i++) {
+          let letterPosition = this.word.indexOf(guessWord[i]);
+          // checks if the letter is in the word
+          if (letterPosition === -1) {
+            // shades dark
+            this.status[row][i] = 'incorrect';
+            // if the letter exits and the index are the same
+          } else if (guessWord[i] === this.word[i]) {
+            // shades green
+            this.status[row][i] = 'correct';
+            // the letter exist but index not the same
           } else {
-            this.status[row][0] = 'partial';
+            // shade yellow
+            this.status[row][i] = 'partial';
           }
-
-          if (guessWord[0].includes(char)) {
-            if (index === 0) {
-              this.status[row][0] = 'correct';
-            } else {
-            }
-          }
-
-          if (guessWord[1].includes(char)) {
-            if (index === 1) {
-              this.status[row][1] = 'correct';
-            } else {
-              this.status[row][1] = 'partial';
-            }
-          }
-
-          if (guessWord[2].includes(char)) {
-            if (index === 2) {
-              this.status[row][2] = 'correct';
-            } else {
-              this.status[row][2] = 'partial';
-            }
-          }
-
-          if (guessWord[3].includes(char)) {
-            if (index === 3) {
-              this.status[row][3] = 'correct';
-            } else {
-              this.status[row][3] = 'partial';
-            }
-          }
-
-          if (guessWord[4].includes(char)) {
-            if (index === 4) {
-              this.status[row][4] = 'correct';
-            } else {
-              this.status[row][4] = 'partial';
-            }
-          }
-
-          if (!guessWord.includes(char)) {
-            this.status[row][index] = 'incorrect';
-          }
-        });
+        }
       }
     }
     this.requestUpdate();
@@ -164,10 +117,7 @@ export class WordGameBoard extends LitElement {
   // deletes user input
   handleDelete(e) {
     if (e.keyCode == 8 || e.keyCode == 46) {
-      e.target.currentElementSibling.shadowRoot.querySelector('input').select();
-      e.target.previousElementSibling.shadowRoot
-        .querySelector('input')
-        .select();
+      console.log(e.target.lastElement);
     }
   }
 
