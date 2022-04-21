@@ -83,14 +83,29 @@ export class WordGameBoard extends LitElement {
         let guessWord = this.guesses[row].join('').toLowerCase();
 
         // checks if the guessWord is in the word list
-        // if (!this.allWords.includes(guessWord)) {
-        //   window.alert('word not in list');
-        //   return;
-        // }
+        if (!this.allWords.includes(guessWord)) {
+          window.alert('word not in list');
+          return;
+        }
 
+        // if the guess word equals the word 
+        if (guessWord === this.word) {
+          window.alert('You did it!');
+        }
+
+        // if the guess word not equal to the word
+        // move to next row
         if (guessWord != this.word.toLowerCase()) {
-          // node.parentElement.nextElementSibling.children[0].shadowRoot.querySelector('input').select();
-          console.log('no match!');
+          if (node.parentElement.nextElementSibling === null) {
+            window.alert(
+              `You have run out of guesses. The word was ${this.word}`
+            );
+            location.reload();
+          } else {
+            node.parentElement.nextElementSibling.children[0].shadowRoot
+              .querySelector('input')
+              .select();
+          }
         }
 
         for (let i = 0; i < 5; i++) {
@@ -116,8 +131,12 @@ export class WordGameBoard extends LitElement {
 
   // deletes user input
   handleDelete(e) {
+    // set the input value to empty on each Backspace
     if (e.keyCode == 8 || e.keyCode == 46) {
-      console.log(e.target.lastElement);
+      e.target.previousElementSibling.shadowRoot
+        .querySelector('input')
+        .select();
+      e.target.shadowRoot.querySelector('input').value = '';
     }
   }
 
