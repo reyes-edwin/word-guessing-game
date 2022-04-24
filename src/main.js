@@ -88,12 +88,12 @@ export class WordGameBoard extends LitElement {
         if (guessWord === this.word) {
           setTimeout(() => {
             confetti.render();
-          }, 2500);
+          }, 1000);
         }
 
         // checks if the guessWord is in the word list
         if (!this.allWords.includes(guessWord)) {
-          console.log('not in my list');
+          window.alert('not in word list.');
           node.parentElement.children[0].shadowRoot
             .querySelector('input')
             .classList.add('shake');
@@ -109,30 +109,9 @@ export class WordGameBoard extends LitElement {
           node.parentElement.children[4].shadowRoot
             .querySelector('input')
             .classList.add('shake');
-          setTimeout(() => {
-            node.parentElement.children[0].shadowRoot
-              .querySelector('input')
-              .classList.remove('shake');
-            node.parentElement.children[1].shadowRoot
-              .querySelector('input')
-              .classList.remove('shake');
-            node.parentElement.children[2].shadowRoot
-              .querySelector('input')
-              .classList.remove('shake');
-            node.parentElement.children[3].shadowRoot
-              .querySelector('input')
-              .classList.remove('shake');
-            node.parentElement.children[4].shadowRoot
-              .querySelector('input')
-              .classList.remove('shake');
-          }, 2000);
-          return;
         }
 
-        if (
-          guessWord != this.word.toLowerCase() &&
-          this.allWords.includes(guessWord)
-        ) {
+        if (guessWord != this.word.toLowerCase() && this.allWords.includes(guessWord)) {
           if (node.parentElement.nextElementSibling === null) {
             window.alert(
               `Game over! You have run out of guesses. The word was ${this.word}.`
@@ -144,7 +123,7 @@ export class WordGameBoard extends LitElement {
               node.parentElement.nextElementSibling.children[0].shadowRoot
                 .querySelector('input')
                 .select();
-            }, 2000);
+            }, 1000);
           }
         }
 
@@ -153,42 +132,24 @@ export class WordGameBoard extends LitElement {
 
         for (let i = 0; i < 5; i++) {
           let letterPosition = this.word.indexOf(guessWord[i]);
-
-          if (guessWord === this.word) {
-            // checks if the letter is in the word
-            if (letterPosition === -1) {
-              // shades dark
-              this.status[row][i] = 'incorrect';
-              // if the letter exits and the index are the same
-            } else if (guessWord[i] === this.word[i]) {
-              // shades green
-              this.status[row][i] = 'correct';
-              // the letter exist but index not the same
-            } else {
-              // shade yellow
-              this.status[row][i] = 'partial';
-            }
-            setTimeout(() => {
-              node.parentElement.children[i].shadowRoot
-                .querySelector('input')
-                .classList.add('bounce');
-            }, 2000);
+          // checks if the letter is in the word
+          if (letterPosition === -1) {
+            // shades dark
+            this.status[row][i] = 'incorrect';
+            // if the letter exits and the index are the same
+          } else if (guessWord[i] === this.word[i]) {
+            // shades green
+            this.status[row][i] = 'correct';
+            // the letter exist but index not the same
+          } else {
+            // shade yellow
+            this.status[row][i] = 'partial';
           }
 
-          if (guessWord != this.word) {
-            // checks if the letter is in the word
-            if (letterPosition === -1) {
-              // shades dark
-              this.status[row][i] = 'incorrect';
-              // if the letter exits and the index are the same
-            } else if (guessWord[i] === this.word[i]) {
-              // shades green
-              this.status[row][i] = 'correct';
-              // the letter exist but index not the same
-            } else {
-              // shade yellow
-              this.status[row][i] = 'partial';
-            }
+          if (guessWord === this.word) {
+            node.parentElement.children[i].shadowRoot
+              .querySelector('input')
+              .classList.add('bounce');
           }
 
           node.parentElement.children[i].shadowRoot
@@ -203,7 +164,7 @@ export class WordGameBoard extends LitElement {
             node.parentElement.children[i].shadowRoot
               .querySelector('input')
               .classList.add('flip-out');
-          }, 450 * i);
+          }, 200 * i);
 
           setTimeout(() => {
             node.parentElement.children[i].shadowRoot
