@@ -59,7 +59,7 @@ export class WordGameBoard extends LitElement {
           flex-grow: 1;
           grid-template-columns: repeat(5, 1.5em);
           gap: 2em;
-          margin-bottom: .3em;
+          margin-bottom: 0.3em;
         }
       `,
     ];
@@ -93,7 +93,6 @@ export class WordGameBoard extends LitElement {
 
         // checks if the guessWord is in the word list
         if (!this.allWords.includes(guessWord)) {
-          console.log('not in my list');
           node.parentElement.children[0].shadowRoot
             .querySelector('input')
             .classList.add('shake');
@@ -127,9 +126,7 @@ export class WordGameBoard extends LitElement {
               .classList.remove('shake');
           }, 2000);
           return;
-        }
-
-        if (
+        } else if (
           guessWord != this.word.toLowerCase() &&
           this.allWords.includes(guessWord)
         ) {
@@ -139,12 +136,13 @@ export class WordGameBoard extends LitElement {
             );
             location.reload();
           } else {
-            setTimeout(() => {
-              node.parentElement.nextElementSibling;
-              node.parentElement.nextElementSibling.children[0].shadowRoot
-                .querySelector('input')
-                .select();
-            }, 2000);
+            node.parentElement.nextElementSibling;
+            node.parentElement.nextElementSibling.children[0].shadowRoot
+              .querySelector('input')
+              .select();
+            node.parentElement.nextElementSibling.children[0].shadowRoot
+              .querySelector('input')
+              .focus();
           }
         }
 
@@ -224,6 +222,9 @@ export class WordGameBoard extends LitElement {
         .querySelector('input')
         .select();
       e.target.shadowRoot.querySelector('input').value = '';
+      e.target.parentElement.children[4].shadowRoot.querySelector('input').value = '';
+      e.target.parentElement.children[4].letter = '';
+
     }
   }
 
