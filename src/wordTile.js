@@ -40,7 +40,8 @@ export class WordTile extends LitElement {
         }
 
         input[type='text']:focus {
-          cursor: none;
+          caret-color: rgba(0,0,0,0);
+          outline: none;
         }
 
         .tile {

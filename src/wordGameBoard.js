@@ -59,7 +59,7 @@ export class WordGameBoard extends LitElement {
           flex-grow: 1;
           grid-template-columns: repeat(5, 1.5em);
           gap: 2em;
-          margin-bottom: 1em;
+          margin-bottom: .3em;
         }
       `,
     ];
