@@ -136,13 +136,15 @@ export class WordGameBoard extends LitElement {
             );
             location.reload();
           } else {
-            node.parentElement.nextElementSibling;
-            node.parentElement.nextElementSibling.children[0].shadowRoot
-              .querySelector('input')
-              .select();
-            node.parentElement.nextElementSibling.children[0].shadowRoot
-              .querySelector('input')
-              .focus();
+            setTimeout(() => {
+              node.parentElement.nextElementSibling;
+              node.parentElement.nextElementSibling.children[0].shadowRoot
+                .querySelector('input')
+                .select();
+              node.parentElement.nextElementSibling.children[0].shadowRoot
+                .querySelector('input')
+                .focus();
+            }, 2000);
           }
         }
 
@@ -222,9 +224,10 @@ export class WordGameBoard extends LitElement {
         .querySelector('input')
         .select();
       e.target.shadowRoot.querySelector('input').value = '';
-      e.target.parentElement.children[4].shadowRoot.querySelector('input').value = '';
+      e.target.parentElement.children[4].shadowRoot.querySelector(
+        'input'
+      ).value = '';
       e.target.parentElement.children[4].letter = '';
-
     }
   }
 
