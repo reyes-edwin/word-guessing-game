@@ -17,7 +17,8 @@
         font-family: Arial;
       }
       body {
-        background-color: #121213;
+        /* background-color: #121213; */
+        background-color: #ffffff;
         display: flex;
         flex-direction: column;
         min-height: 100vh;
@@ -26,17 +27,17 @@
         font-size: clamp(0.5rem, 2.5vmin, 1.5rem);
       }
       .title {
-        color: gainsboro;
+        /* color: gainsboro; */
+        color: #121213;
         font-size: 2.5rem;
         font-weight: bold;
         margin: 0.4rem 0 0.4rem 0;
         text-align: center;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
-          'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
       }
 
       header {
-        border-bottom: 1px solid rgb(58, 58, 60);
+        border-bottom: 1px solid #d3d6da;
       }
 
       #my-canvas {
@@ -56,9 +57,9 @@
     <!-- brings a static word for the current day -->
     <word-guess-game></word-guess-game>
     <!-- Generates a random date and word  -->
-    <hr>
+    <!-- <hr>
     <header><h1 class="title">WORDLE UNLIMITED</h1></header>
-    <word-guess-game date="random"></word-guess-game>
+    <word-guess-game date="random"></word-guess-game> -->
     <script type="module">
       import './src/WordGuessingGame.js';
     </script>

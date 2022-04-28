@@ -1,5 +1,6 @@
 import { LitElement, css, html } from 'lit';
 import './wordTile';
+import './wordKeyboard';
 import ConfettiGenerator from 'confetti-js';
 // import 'animate.css';
 
@@ -148,6 +149,8 @@ export class WordGameBoard extends LitElement {
           }
         }
 
+        console.log(node.parentNode);
+
         var confettiSettings = { target: 'my-canvas' };
         var confetti = new ConfettiGenerator(confettiSettings);
 
@@ -173,6 +176,14 @@ export class WordGameBoard extends LitElement {
                 .querySelector('input')
                 .classList.add('bounce');
             }, 2000);
+
+            node.parentElement.children[i].shadowRoot
+              .querySelector('input')
+              .setAttribute('disabled', 'disabled');
+
+            // node.parentElement.nextElementSibling.children[i].shadowRoot
+            //   .querySelector('input')
+            //   .setAttribute('disabled', 'disabled');
           }
 
           if (guessWord != this.word) {
@@ -190,6 +201,10 @@ export class WordGameBoard extends LitElement {
               this.status[row][i] = 'partial';
             }
           }
+
+          node.parentElement.children[i].shadowRoot.querySelector(
+            'input'
+          ).style.color = 'white';
 
           node.parentElement.children[i].shadowRoot
             .querySelector('input')
@@ -273,6 +288,7 @@ export class WordGameBoard extends LitElement {
           </div>
         `
       )}
+       <word-keyboard></word-keyboard>
     `;
   }
 }

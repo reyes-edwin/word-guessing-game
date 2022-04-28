@@ -40,8 +40,6 @@ class WordGuessingGame extends LitElement {
       css`
         :host {
           display: block;
-          margin: 10px;
-          color: white;
         }
       `,
     ];

@@ -40,15 +40,15 @@ export class WordTile extends LitElement {
         }
 
         input[type='text']:focus {
-          caret-color: rgba(0,0,0,0);
+          caret-color: rgba(0, 0, 0, 0);
           outline: none;
         }
 
         .tile {
           font-size: 2em;
           background: none;
-          color: white;
-          border: 0.05em solid hsl(240, 2%, 23%);
+          color: black;
+          border: 0.05em solid #d3d6da;
           text-transform: uppercase;
           text-align: center;
           font-weight: bold;
