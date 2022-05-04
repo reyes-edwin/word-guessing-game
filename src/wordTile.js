@@ -2,7 +2,7 @@ import { LitElement, css, html } from 'lit';
 
 export class WordTile extends LitElement {
   static get tag() {
-    return 'word-tile';
+    return 'wordle-tile';
   }
 
   constructor() {
@@ -24,19 +24,23 @@ export class WordTile extends LitElement {
     return [
       css`
         :host {
-          display: inline-flex;
+          display: block;
         }
         :host([status='correct']) .tile {
           background-color: #538d4e;
           border-color: #538d4e;
         }
         :host([status='partial']) .tile {
-          background-color: #b59f3b;
-          border-color: #b59f3b;
+          background-color: #c9b458;
+          border-color: #c9b458;
         }
         :host([status='incorrect']) .tile {
-          background-color: #3a3a3c;
-          border-color: #3a3a3c;
+          background-color: #787c7e;
+          border-color: #787c7e;
+        }
+
+        :host([status='tbd']) .tile {
+          border: 2px solid #878a8c;
         }
 
         input[type='text']:focus {
@@ -45,20 +49,22 @@ export class WordTile extends LitElement {
         }
 
         .tile {
-          font-size: 2em;
-          background: none;
-          color: black;
-          border: 0.05em solid #d3d6da;
-          text-transform: uppercase;
-          text-align: center;
-          font-weight: bold;
-          display: flex;
+          width: 100%;
+          display: inline-flex;
           justify-content: center;
           align-items: center;
+          font-size: 2rem;
+          line-height: 2rem;
+          font-weight: bold;
+          vertical-align: middle;
+          text-align: center;
+          box-sizing: border-box;
+          border: 2px solid #d3d6da;
+          color: black;
+          text-transform: uppercase;
           user-select: none;
-          padding: 0;
-          width: 1.5em;
-          height: 1.5em;
+          height: 62px;
+          width: 62px;
         }
 
         @keyframes flip-in {
@@ -192,6 +198,7 @@ export class WordTile extends LitElement {
       }
     });
   }
+  
   render() {
     return html`${this.createTile()}`;
   }

@@ -1,25 +1,55 @@
 import { LitElement, css, html } from 'lit';
 
-export class WordKeyBoard extends LitElement {
+ class WordKeyBoard extends LitElement {
   static get tag() {
-    return 'word-keyboard';
+    return 'wordle-keyboard';
   }
 
+  constructor() {
+    super();
+    this.status = '';
+  }
+
+  static get properties() {
+    return {
+      status: { type: String, reflect: true },
+  
+    };
+  }
+ 
   static get styles() {
     return [
       css`
         :host {
           display: block;
         }
+        
+        button.key.correct {
+          background-color: #538d4e;
+          border-color: #538d4e;
+          color: white;
+
+        }
+        button.key.partial {
+          background-color: #c9b458;
+          border-color: #c9b458;
+          color: white;
+
+        }
+        button.key.incorrect {
+          background-color: #787c7e;
+          border-color: #787c7e;
+          color: white;
+        }
+
         .keyboard {
-          margin-top: 30px;
+          margin-top: 50px;
           display: grid;
           grid-template-columns: repeat(20, minmax(auto, 1.3em));
           grid-auto-rows: 3em;
           gap: 0.25em;
           justify-content: center;
         }
-
         .key {
           font-size: inherit;
           grid-column: span 2;

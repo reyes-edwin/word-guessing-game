@@ -1,12 +1,9 @@
 import { html, css, LitElement } from 'lit';
-// @feedback brings in the game board asset to be built
-// this keeps the current element just about starting the game
-// and passing the "word" down into the word-game-board tag
 import './wordGameBoard.js';
 
-class WordGuessingGame extends LitElement {
+class WordGame extends LitElement {
   static get tag() {
-    return 'word-guess-game';
+    return 'wordle-game';
   }
 
   constructor() {
@@ -55,13 +52,13 @@ class WordGuessingGame extends LitElement {
   }
 
   render() {
-    return html`
-      <word-game-board
-        .word="${this.word}"
-        .allWords="${this.allWords}"
-      ></word-game-board>
+    return html`  
+        <wordle-game-board
+          .word="${this.word}"
+          .allWords="${this.allWords}"
+        ></wordle-game-board>
     `;
   }
 }
 
-customElements.define(WordGuessingGame.tag, WordGuessingGame);
+customElements.define(WordGame.tag, WordGame);
