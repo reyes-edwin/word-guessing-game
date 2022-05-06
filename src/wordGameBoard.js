@@ -26,6 +26,7 @@ export class WordGameBoard extends LitElement {
       ['', '', '', '', ''],
       ['', '', '', '', ''],
     ];
+
   }
   static get tag() {
     return 'wordle-game-board';
@@ -36,7 +37,6 @@ export class WordGameBoard extends LitElement {
       word: { type: String },
       allWords: { type: String },
       letter: { type: String },
-      state: { type: String },
       guesses: { type: Array },
       status: { type: Array },
     };
@@ -153,6 +153,8 @@ export class WordGameBoard extends LitElement {
         }
 
         for (let i = 0; i < 5; i++) {
+          this.status[row][i] = 'tbd';
+
           let letterPosition = this.word.indexOf(guessWord[i]);
           const element =
             node.parentElement.children[i].shadowRoot.querySelector('input');
@@ -189,14 +191,55 @@ export class WordGameBoard extends LitElement {
               this.status[row][i] = 'partial';
               key.classList.add('partial');
             }
+
+            // bounce animation
             setTimeout(() => {
               node.parentElement.children[i].shadowRoot
                 .querySelector('input')
                 .classList.add('bounce');
             }, 2000);
 
-            node.parentElement.children[i].shadowRoot
-              .querySelector('input')
+            document
+              .querySelector(' wordle-game')
+              .shadowRoot.querySelector('wordle-game-board')
+              .shadowRoot.querySelector('div')
+              .nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.children[
+                i
+              ].shadowRoot.querySelector('input')
+              .setAttribute('disabled', 'disabled');
+
+            document
+              .querySelector(' wordle-game')
+              .shadowRoot.querySelector('wordle-game-board')
+              .shadowRoot.querySelector('div')
+              .nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.children[
+                i
+              ].shadowRoot.querySelector('input')
+              .setAttribute('disabled', 'disabled');
+
+            document
+              .querySelector(' wordle-game')
+              .shadowRoot.querySelector('wordle-game-board')
+              .shadowRoot.querySelector('div')
+              .nextElementSibling.nextElementSibling.nextElementSibling.children[
+                i
+              ].shadowRoot.querySelector('input')
+              .setAttribute('disabled', 'disabled');
+
+            document
+              .querySelector(' wordle-game')
+              .shadowRoot.querySelector('wordle-game-board')
+              .shadowRoot.querySelector('div')
+              .nextElementSibling.nextElementSibling.children[
+                i
+              ].shadowRoot.querySelector('input')
+              .setAttribute('disabled', 'disabled');
+
+            document
+              .querySelector(' wordle-game')
+              .shadowRoot.querySelector('wordle-game-board')
+              .shadowRoot.querySelector('div')
+              .nextElementSibling.children[i].shadowRoot.querySelector('input')
               .setAttribute('disabled', 'disabled');
           }
 
@@ -216,12 +259,12 @@ export class WordGameBoard extends LitElement {
             } else {
               // shade yellow
               this.status[row][i] = 'partial';
-              key.classList.add("partial");
+              key.classList.add('partial');
             }
 
             node.parentElement.children[i].shadowRoot
-            .querySelector('input')
-            .setAttribute('disabled', 'disabled');
+              .querySelector('input')
+              .setAttribute('disabled', 'disabled');
           }
         }
       }

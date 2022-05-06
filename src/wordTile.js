@@ -198,7 +198,7 @@ export class WordTile extends LitElement {
       }
     });
   }
-  
+
   render() {
     return html`${this.createTile()}`;
   }
