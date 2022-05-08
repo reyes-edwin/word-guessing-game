@@ -26,7 +26,6 @@ export class WordGameBoard extends LitElement {
       ['', '', '', '', ''],
       ['', '', '', '', ''],
     ];
-
   }
   static get tag() {
     return 'wordle-game-board';
@@ -49,7 +48,6 @@ export class WordGameBoard extends LitElement {
           display: block;
           margin-top: 50px;
         }
-
         .guess-grid {
           display: grid;
           grid-template-columns: repeat(5, 1fr);
@@ -84,8 +82,15 @@ export class WordGameBoard extends LitElement {
           .querySelector('wordle-keyboard')
           .shadowRoot.querySelector('[data-keyboard]');
 
+        const totalGames = window.localStorage.getItem('totalGames') || 0;
+        const totalWins = window.localStorage.getItem('totalWins') || 0;
+        const winPct = Math.round(totalWins / totalGames) * 100 || 0;
+
         // start confetti after the tiles animation
         if (guessWord === this.word) {
+          window.localStorage.setItem('totalWins', Number(totalWins) + 1);
+          window.localStorage.setItem('totalGames', Number(totalGames) + 1);
+
           setTimeout(() => {
             confetti.render();
           }, 2500);
@@ -93,6 +98,21 @@ export class WordGameBoard extends LitElement {
             document
               .querySelector('wordle-modal')
               .setAttribute('state', 'open');
+            document
+              .querySelector('wordle-modal')
+              .shadowRoot.querySelector('wordle-stats')
+              .shadowRoot.querySelector('div #games-played').textContent =
+              window.localStorage.getItem('totalGames');
+            document
+              .querySelector('wordle-modal')
+              .shadowRoot.querySelector('wordle-stats')
+              .shadowRoot.querySelector('div #total-wins').textContent =
+              window.localStorage.getItem('totalWins');
+
+            document
+              .querySelector('wordle-modal')
+              .shadowRoot.querySelector('wordle-stats')
+              .shadowRoot.querySelector('div #wins-pct').textContent = winPct;
           }, 3500);
         }
 
@@ -139,7 +159,26 @@ export class WordGameBoard extends LitElement {
             window.alert(
               `Game over! You have run out of guesses. The word was ${this.word}.`
             );
-            location.reload();
+            window.localStorage.setItem('totalGames', Number(totalGames) + 1);
+            setTimeout(() => {
+              document
+                .querySelector('wordle-modal')
+                .setAttribute('state', 'open');
+              document
+                .querySelector('wordle-modal')
+                .shadowRoot.querySelector('wordle-stats')
+                .shadowRoot.querySelector('div #games-played').textContent =
+                window.localStorage.getItem('totalGames');
+              document
+                .querySelector('wordle-modal')
+                .shadowRoot.querySelector('wordle-stats')
+                .shadowRoot.querySelector('div #total-wins').textContent =
+                window.localStorage.getItem('totalWins');
+              document
+                .querySelector('wordle-modal')
+                .shadowRoot.querySelector('wordle-stats')
+                .shadowRoot.querySelector('div #wins-pct').textContent = winPct;
+            }, 2500);
           } else {
             node.parentElement.nextElementSibling;
             node.parentElement.nextElementSibling.children[0].shadowRoot
@@ -153,8 +192,6 @@ export class WordGameBoard extends LitElement {
         }
 
         for (let i = 0; i < 5; i++) {
-          this.status[row][i] = 'tbd';
-
           let letterPosition = this.word.indexOf(guessWord[i]);
           const element =
             node.parentElement.children[i].shadowRoot.querySelector('input');
@@ -198,6 +235,9 @@ export class WordGameBoard extends LitElement {
                 .querySelector('input')
                 .classList.add('bounce');
             }, 2000);
+            node.parentElement.children[i].shadowRoot
+              .querySelector('input')
+              .setAttribute('disabled', 'disabled');
 
             document
               .querySelector(' wordle-game')
@@ -269,7 +309,6 @@ export class WordGameBoard extends LitElement {
         }
       }
     }
-
     this.requestUpdate();
   }
 
@@ -288,8 +327,37 @@ export class WordGameBoard extends LitElement {
     }
   }
 
+  showStat() {
+    const totalGames = window.localStorage.getItem('totalGames');
+    const totalWins = window.localStorage.getItem('totalWins');
+    const winPct = Math.round((totalWins / totalGames) * 100) || 0;
+
+    document
+      .getElementById('statistics-button')
+      .addEventListener('click', function (e) {
+        document.querySelector('wordle-modal').setAttribute('state', 'open');
+
+        document
+          .querySelector('wordle-modal')
+          .shadowRoot.querySelector('wordle-stats')
+          .shadowRoot.querySelector('div #games-played').textContent =
+          totalGames;
+
+        document
+          .querySelector('wordle-modal')
+          .shadowRoot.querySelector('wordle-stats')
+          .shadowRoot.querySelector('div #total-wins').textContent = totalWins;
+
+        document
+          .querySelector('wordle-modal')
+          .shadowRoot.querySelector('wordle-stats')
+          .shadowRoot.querySelector('div #wins-pct').textContent = winPct;
+      });
+  }
+
   render() {
     return html`
+      ${this.showStat()}
       ${this.guesses.map(
         (guess, index) => html`
           <div data-guess-row="${index}" class="guess-grid">

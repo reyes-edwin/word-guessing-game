@@ -10,7 +10,7 @@ class WordModel extends LitElement {
   constructor() {
     super();
     this.icon = '';
-    this.state = '';
+    this.state = 'closed';
   }
 
   static get properties() {
@@ -105,10 +105,9 @@ class WordModel extends LitElement {
     ];
   }
 
-//   closes statistic menu
+  //   closes statistic menu
   closeStat(e) {
-      this.state = '';
-
+    this.state = 'closed';
   }
 
   render() {
@@ -119,7 +118,7 @@ class WordModel extends LitElement {
             <wordle-stats></wordle-stats>
           </slot>
           <div class="close-icon">
-            <wordle-icon icon="close" @click="${this.closeStat}"> </wordle-icon>
+            <wordle-icon icon="close" @click="${this.closeStat}"></wordle-icon>
           </div>
         </div>
       </div>

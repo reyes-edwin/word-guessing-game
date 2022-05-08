@@ -7,10 +7,14 @@ export class WordStats extends LitElement {
 
   constructor() {
     super();
+    this.totalGames = window.localStorage.getItem('totalGames');
+    this.totalWins = window.localStorage.getItem('totalWins');
+    
   }
 
   static get properties() {
-    return {};
+    return {
+    };
   }
 
   static get styles() {
@@ -146,17 +150,17 @@ export class WordStats extends LitElement {
         <h1>Statistics</h1>
         <div id="statistics">
           <div class="statistic-container">
-            <div class="statistic"></div>
+            <div class="statistic" id="games-played">0</div>
             <div class="label">Played</div>
           </div>
 
           <div class="statistic-container second">
-            <div class="statistic"></div>
+            <div class="statistic" id="total-wins">0</div>
             <div class="label">Wins</div>
          </div>
 
           <div class="statistic-container">
-            <div class="statistic"></div>
+            <div class="statistic" id="wins-pct"></div>
             <div class="label">Win%</div>
           </div>
           
