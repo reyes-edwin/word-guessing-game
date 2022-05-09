@@ -10,6 +10,7 @@ export class WordTile extends LitElement {
     this.letter = '';
     this.index = 0;
     this.status = '';
+    this.letter_state = '';
   }
 
   static get properties() {
@@ -17,6 +18,7 @@ export class WordTile extends LitElement {
       letter: { type: String, reflect: true },
       status: { type: String, reflect: true },
       index: { type: Number, reflect: true },
+      letter_state: { type: String, reflect: true },
     };
   }
 
@@ -39,7 +41,7 @@ export class WordTile extends LitElement {
           border-color: #787c7e;
         }
 
-        :host([status='tbd']) .tile {
+        :host([letter_state='tbd']) .tile {
           border: 2px solid #878a8c;
         }
 

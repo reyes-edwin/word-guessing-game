@@ -1,4 +1,5 @@
 import { html, css, LitElement } from 'lit';
+import './wordleCountDown.js';
 
 export class WordStats extends LitElement {
   static get tag() {
@@ -9,12 +10,10 @@ export class WordStats extends LitElement {
     super();
     this.totalGames = window.localStorage.getItem('totalGames');
     this.totalWins = window.localStorage.getItem('totalWins');
-    
   }
 
   static get properties() {
-    return {
-    };
+    return {};
   }
 
   static get styles() {
@@ -160,7 +159,7 @@ export class WordStats extends LitElement {
          </div>
 
           <div class="statistic-container">
-            <div class="statistic" id="wins-pct"></div>
+            <div class="statistic" id="wins-pct">0</div>
             <div class="label">Win%</div>
           </div>
           

@@ -26,6 +26,14 @@ export class WordGameBoard extends LitElement {
       ['', '', '', '', ''],
       ['', '', '', '', ''],
     ];
+    this.letter_state = [
+      ['', '', '', '', ''],
+      ['', '', '', '', ''],
+      ['', '', '', '', ''],
+      ['', '', '', '', ''],
+      ['', '', '', '', ''],
+      ['', '', '', '', ''],
+    ];
   }
   static get tag() {
     return 'wordle-game-board';
@@ -38,6 +46,7 @@ export class WordGameBoard extends LitElement {
       letter: { type: String },
       guesses: { type: Array },
       status: { type: Array },
+      letter_state: { type: Array },
     };
   }
 
@@ -73,6 +82,8 @@ export class WordGameBoard extends LitElement {
       ) {
         node.nextElementSibling.shadowRoot.querySelector('input').select();
         node.nextElementSibling.shadowRoot.querySelector('input').focus();
+        node.setAttribute('letter_state', 'tbd');
+        // node.shadowRoot.querySelector('input').classList.add('popIn');
       } else if (node && !node.nextElementSibling) {
         // this implies we are at the end of a row
         let guessWord = this.guesses[row].join('').toLowerCase();
@@ -84,7 +95,6 @@ export class WordGameBoard extends LitElement {
 
         const totalGames = window.localStorage.getItem('totalGames') || 0;
         const totalWins = window.localStorage.getItem('totalWins') || 0;
-        const winPct = Math.round(totalWins / totalGames) * 100 || 0;
 
         // start confetti after the tiles animation
         if (guessWord === this.word) {
@@ -94,25 +104,11 @@ export class WordGameBoard extends LitElement {
           setTimeout(() => {
             confetti.render();
           }, 2500);
+
           setTimeout(() => {
             document
               .querySelector('wordle-modal')
               .setAttribute('state', 'open');
-            document
-              .querySelector('wordle-modal')
-              .shadowRoot.querySelector('wordle-stats')
-              .shadowRoot.querySelector('div #games-played').textContent =
-              window.localStorage.getItem('totalGames');
-            document
-              .querySelector('wordle-modal')
-              .shadowRoot.querySelector('wordle-stats')
-              .shadowRoot.querySelector('div #total-wins').textContent =
-              window.localStorage.getItem('totalWins');
-
-            document
-              .querySelector('wordle-modal')
-              .shadowRoot.querySelector('wordle-stats')
-              .shadowRoot.querySelector('div #wins-pct').textContent = winPct;
           }, 3500);
         }
 
@@ -164,20 +160,6 @@ export class WordGameBoard extends LitElement {
               document
                 .querySelector('wordle-modal')
                 .setAttribute('state', 'open');
-              document
-                .querySelector('wordle-modal')
-                .shadowRoot.querySelector('wordle-stats')
-                .shadowRoot.querySelector('div #games-played').textContent =
-                window.localStorage.getItem('totalGames');
-              document
-                .querySelector('wordle-modal')
-                .shadowRoot.querySelector('wordle-stats')
-                .shadowRoot.querySelector('div #total-wins').textContent =
-                window.localStorage.getItem('totalWins');
-              document
-                .querySelector('wordle-modal')
-                .shadowRoot.querySelector('wordle-stats')
-                .shadowRoot.querySelector('div #wins-pct').textContent = winPct;
             }, 2500);
           } else {
             node.parentElement.nextElementSibling;
@@ -212,21 +194,28 @@ export class WordGameBoard extends LitElement {
           }, 1500);
 
           if (guessWord === this.word) {
+            e.target.parentElement.children[i].removeAttribute('letter_state');
             // checks if the letter is in the word
             if (letterPosition === -1) {
               // shades dark
               this.status[row][i] = 'incorrect';
-              key.classList.add('incorrect');
+              setTimeout(() => {
+                key.classList.add('incorrect');
+              }, 2500);
               // if the letter exits and the index are the same
             } else if (guessWord[i] === this.word[i]) {
               // shades green
               this.status[row][i] = 'correct';
-              key.classList.add('correct');
+              setTimeout(() => {
+                key.classList.add('correct');
+              }, 2500);
               // the letter exist but index not the same
             } else {
               // shade yellow
               this.status[row][i] = 'partial';
-              key.classList.add('partial');
+              setTimeout(() => {
+                key.classList.add('partial');
+              }, 2500);
             }
 
             // bounce animation
@@ -284,22 +273,27 @@ export class WordGameBoard extends LitElement {
           }
 
           if (guessWord != this.word) {
+            e.target.parentElement.children[i].removeAttribute('letter_state');
             // checks if the letter is in the word
             if (letterPosition === -1) {
               // shades dark
               this.status[row][i] = 'incorrect';
-              key.classList.add('incorrect');
-
+              setTimeout(() => {
+                key.classList.add('incorrect');
+              }, 2500);
               // if the letter exits and the index are the same
             } else if (guessWord[i] === this.word[i]) {
               // shades green
               this.status[row][i] = 'correct';
-              key.classList.add('correct');
-              // the letter exist but index not the same
+              setTimeout(() => {
+                key.classList.add('correct');
+              }, 2500); // the letter exist but index not the same
             } else {
               // shade yellow
               this.status[row][i] = 'partial';
-              key.classList.add('partial');
+              setTimeout(() => {
+                key.classList.add('partial');
+              }, 2500);
             }
 
             node.parentElement.children[i].shadowRoot
@@ -324,45 +318,71 @@ export class WordGameBoard extends LitElement {
         'input'
       ).value = '';
       e.target.parentElement.children[4].letter = '';
+      e.target.removeAttribute('letter_state');
     }
   }
 
   showStat() {
-    const totalGames = window.localStorage.getItem('totalGames');
-    const totalWins = window.localStorage.getItem('totalWins');
+    const totalGames = window.localStorage.getItem('totalGames') || 0;
+    const totalWins = window.localStorage.getItem('totalWins') || 0;
     const winPct = Math.round((totalWins / totalGames) * 100) || 0;
+
+    window.localStorage.setItem('winPercentage', Number(winPct));
+
+    document
+      .querySelector('wordle-modal')
+      .shadowRoot.querySelector('wordle-stats')
+      .shadowRoot.querySelector('div #games-played').textContent =
+      window.localStorage.getItem('totalGames');
+    document
+      .querySelector('wordle-modal')
+      .shadowRoot.querySelector('wordle-stats')
+      .shadowRoot.querySelector('div #total-wins').textContent =
+      window.localStorage.getItem('totalWins');
+
+    document
+      .querySelector('wordle-modal')
+      .shadowRoot.querySelector('wordle-stats')
+      .shadowRoot.querySelector('div #wins-pct').textContent =
+      window.localStorage.getItem('winPercentage');
 
     document
       .getElementById('statistics-button')
       .addEventListener('click', function (e) {
         document.querySelector('wordle-modal').setAttribute('state', 'open');
-
-        document
-          .querySelector('wordle-modal')
-          .shadowRoot.querySelector('wordle-stats')
-          .shadowRoot.querySelector('div #games-played').textContent =
-          totalGames;
-
-        document
-          .querySelector('wordle-modal')
-          .shadowRoot.querySelector('wordle-stats')
-          .shadowRoot.querySelector('div #total-wins').textContent = totalWins;
-
-        document
-          .querySelector('wordle-modal')
-          .shadowRoot.querySelector('wordle-stats')
-          .shadowRoot.querySelector('div #wins-pct').textContent = winPct;
       });
+  }
+
+  timer() {
+    // const element = document
+    //   .querySelector('wordle-modal')
+    //   .shadowRoot.querySelector('wordle-stats')
+    //   .shadowRoot.querySelector('countdown-timer').shadowRoot.getElementById('timer');
+    //   console.log(element);
+    // setInterval(() => {
+    //   var toDate = new Date();
+    //   var tomorrow = new Date();
+    //   tomorrow.setHours(24, 0, 0, 0);
+    //   var diffMS = tomorrow.getTime() / 1000 - toDate.getTime() / 1000;
+    //   var diffHr = Math.floor(diffMS / 3600);
+    //   diffMS = diffMS - diffHr * 3600;
+    //   var diffMi = Math.floor(diffMS / 60);
+    //   diffMS = diffMS - diffMi * 60;
+    //   var diffS = Math.floor(diffMS);
+    //   var result = diffHr < 10 ? '0' + diffHr : diffHr;
+    //   result += ':' + (diffMi < 10 ? '0' + diffMi : diffMi);
+    //   result += ':' + (diffS < 10 ? '0' + diffS : diffS);
+    //   element.innerHTML = result;
+    // }, 1000);
   }
 
   render() {
     return html`
-      ${this.showStat()}
+      ${this.timer()} ${this.showStat()}
       ${this.guesses.map(
         (guess, index) => html`
           <div data-guess-row="${index}" class="guess-grid">
             <wordle-tile
-              @keypress="${this.handleSubmit}"
               status="${this.status[index][0]}"
               index="0"
               letter="${guess[0]}"
@@ -370,7 +390,6 @@ export class WordGameBoard extends LitElement {
             ></wordle-tile>
             <wordle-tile
               @keydown="${this.handleDelete}"
-              @keypress="${this.handleSubmit}"
               status="${this.status[index][1]}"
               index="1"
               letter="${guess[1]}"
@@ -378,7 +397,6 @@ export class WordGameBoard extends LitElement {
             ></wordle-tile>
             <wordle-tile
               @keydown="${this.handleDelete}"
-              @keypress="${this.handleSubmit}"
               status="${this.status[index][2]}"
               index="2"
               letter="${guess[2]}"
@@ -386,7 +404,6 @@ export class WordGameBoard extends LitElement {
             ></wordle-tile>
             <wordle-tile
               @keydown="${this.handleDelete}"
-              @keypress="${this.handleSubmit}"
               status="${this.status[index][3]}"
               index="3"
               letter="${guess[3]}"
@@ -394,7 +411,6 @@ export class WordGameBoard extends LitElement {
             ></wordle-tile>
             <wordle-tile
               @keydown="${this.handleDelete}"
-              @keypress="${this.handleSubmit}"
               status="${this.status[index][4]}"
               index="4"
               letter="${guess[4]}"
